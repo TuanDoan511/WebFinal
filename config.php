@@ -1,5 +1,5 @@
 <?php
-    define("TOKEN_HEADER", "Token");
+    define("TOKEN_HEADER", "token");
     define("HOST", "localhost");
     define("DB_NAME", "Final");
     define("DB_USERNAME", "root");
