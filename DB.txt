@@ -1,0 +1,14 @@
+CREATE DATABASE Final;
+
+USE Final;
+
+CREATE TABLE Users(
+	username varchar(32) PRIMARY KEY,
+    password varchar(100) not null,
+    email varchar(32) not null,
+    phone int not null,
+    firstName varchar(32) not null,
+    lastName varchar(32) not null,
+    rootDir varchar(32) not null
+);
+

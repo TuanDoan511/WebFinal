@@ -12,6 +12,7 @@ class HomeController {
     }
 
     function index() {
+        $user = $this->username;
         require_once ("views/home/index.php");
     }
 
