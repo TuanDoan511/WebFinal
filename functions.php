@@ -1,4 +1,5 @@
 <?php
+    require ("models/user.php");
 
     function password_hashing($password) {
         return password_hash($password, PASSWORD_BCRYPT);
@@ -18,8 +19,19 @@
         setcookie(TOKEN_HEADER, $token);
     }
 
-    function redirect($controller, $action) {
-        header("Location: http://" . HOST . "/Final/?controller=$controller&action=$action");
+    function redirect($controller, $action, $extra = array()) {
+        if ($extra == null)
+        {
+            header("Location: /Final/?controller=$controller&action=$action");
+        }
+        else
+        {
+            $url = "Location: /Final/?controller=$controller&action=$action";
+            foreach (array_keys($extra) as $key) {
+                $url = $url . "&" . $key . "=" . $extra[$key];
+            }
+            header($url);
+        }
     }
 
     function token_verify() {
@@ -40,9 +52,9 @@
                 if ($signature === $signatureProvided) {
                     $payload = json_decode($payload);
 
-                    $username = user::getUser($payload->username);
-                    if ($username != null) {
-                        return $username;
+                    $user = user::getUser($payload->username);
+                    if ($user != null) {
+                        return $user;
                     }
                 }
             }

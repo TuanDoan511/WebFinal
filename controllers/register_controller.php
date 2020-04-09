@@ -6,7 +6,9 @@ class RegisterController {
 
     function __construct()
     {
-
+        if (isset($_COOKIE[TOKEN_HEADER])) {
+            redirect("home", "index");
+        }
     }
 
     function index($register_alert="", $username="", $email="",$phone ="", $firstName="", $lastName="") {
@@ -28,7 +30,12 @@ class RegisterController {
             $phone = $_POST["phone"];
             $firstName = $_POST["lastName"];
             $lastName = $_POST["firstName"];
-            $rootDir = "/asset/user_file/" . $username;
+            $rootDir = "Final/user_files" . "/" . $username;
+
+            if ($username == "" || $password == "" || $email == "" || $phone == "" || $firstName == "" || $lastName == "") {
+                $register_alert = "* fields must not empty";
+                $this->index($register_alert, $username, $email, $phone, $firstName, $lastName);
+            }
 
             $user = user::addUser($username, $password, $email, $phone, $firstName, $lastName, $rootDir);
             if ($user == null) {
@@ -36,7 +43,17 @@ class RegisterController {
                 $this->index($register_alert, $username, $email, $phone, $firstName, $lastName);
             }
             else {
+
+                $dir = $_SERVER["DOCUMENT_ROOT"] . "/" . $rootDir;
+                if (!file_exists($dir)) {
+                    print_r($dir);
+                    mkdir($dir, 0777, true);
+                    mkdir($dir . "/" . "My Drive", 0777, true);
+                    mkdir($dir . "/" . "Share With Me", 0777, true);
+                }
+
                 //set token and navigate to home page when user are successfully created
+                token_generate($username);
                 redirect("home", "index");
             }
 

@@ -3,9 +3,10 @@
     require_once ("functions.php");
 
     $support_controller = array(
-        "login" => array("index", "login", "logout", "error"),
-        "home" => array("index", "error"),
+        "login" => array("index", "login"),
+        "home" => array("index", "error", "create_dir"),
         "register" => array("index", "register"),
+        "logout" => array("logout"),
     );
 
     if ($_SERVER["REQUEST_METHOD"] == "POST") {

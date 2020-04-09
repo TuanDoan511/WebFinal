@@ -6,7 +6,9 @@
 
         function __construct()
         {
-
+            if (isset($_COOKIE[TOKEN_HEADER])) {
+                redirect("home", "index");
+            }
         }
 
         function index($login_alert="", $username="") {
