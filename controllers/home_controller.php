@@ -20,7 +20,7 @@ class HomeController {
         }
         $root = $this->root;
         $dir_path = $root . $dir;
-        require_once ("views/home/index.php");
+        require_once("views/home/index.php");
     }
 
     function create_dir() {
@@ -41,6 +41,7 @@ class HomeController {
             {
                 mkdir($new_folder, 0777, true);
                 redirect("home", "index", array("dir"=>$dir));
+                return;
             }
         }
     }
