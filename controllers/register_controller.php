@@ -45,6 +45,9 @@ class RegisterController {
             else {
 
                 $dir = $_SERVER["DOCUMENT_ROOT"] . "/" . $rootDir;
+                if (!file_exists($_SERVER["DOCUMENT_ROOT"] . '/' . "Final/user_files")) {
+                    mkdir($_SERVER["DOCUMENT_ROOT"] . '/' . "Final/user_files", 0777, true);
+                }
                 if (!file_exists($dir)) {
                     print_r($dir);
                     mkdir($dir, 0777, true);

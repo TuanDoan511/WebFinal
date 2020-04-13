@@ -74,7 +74,7 @@
     <form action="/Final/" method="get">
         <input type="hidden" name="controller" value="home"/>
         <input type="hidden" name="action" value="create_dir"/>
-        <input type="hidden" name="dir" value="<?= str_replace("//", "/", substr($dir, 2)) ?>"/>
+        <input type="hidden" name="dir" value="<?= substr($dir, 1) ?>"/>
         <input type="text" name="new_folder_name"/>
         <input type="submit" value="create new folder"/>
     </form>
