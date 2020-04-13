@@ -6,12 +6,13 @@
 
         function __construct()
         {
-            if (isset($_COOKIE[TOKEN_HEADER])) {
-                redirect("home", "index");
-            }
+
         }
 
         function index($login_alert="", $username="") {
+            if (isset($_COOKIE[TOKEN_HEADER])) {
+                redirect("home", "index");
+            }
             $login_alert;
             $username;
             require_once ("views/login/index.php");

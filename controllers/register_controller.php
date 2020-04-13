@@ -6,12 +6,13 @@ class RegisterController {
 
     function __construct()
     {
-        if (isset($_COOKIE[TOKEN_HEADER])) {
-            redirect("home", "index");
-        }
+
     }
 
     function index($register_alert="", $username="", $email="",$phone ="", $firstName="", $lastName="") {
+        if (isset($_COOKIE[TOKEN_HEADER])) {
+            redirect("home", "index");
+        }
         $register_alert;
         $username;
         $email;

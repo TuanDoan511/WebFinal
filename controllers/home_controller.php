@@ -35,6 +35,7 @@ class HomeController {
             }
 
             if (is_dir($new_folder)) {
+                $this->index();
                 echo "<script type='text/javascript'>alert('File already exist');</script>";
             }
             else

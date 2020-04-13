@@ -50,13 +50,14 @@
                     </div>
                     <div class="head">
                         <div class="user_section" id="user">
+                            <p class="v">Nguyen Phuong</p>
                             <img src="/Final/image/avatar.svg" alt="user" class="l">
                         </div>
                         <div class="user_c">
                             <div class="user_info l">
                             <img src="/Final/image/avatar.svg" alt="user" class="info_img ">
-                            <p><?= $user->username?></p>
-                            <p><?= $user->email?></p>
+                            <p >Username</p>
+                            <p>User@gmail.com</p>
 
                         </div>
                                 <ul>
@@ -105,19 +106,8 @@
             </div>
 
             <div class="main_container">
-                <form action="/Final/" method="get">
-                    <input class="file-input" type="file" name="myFile[]" id="myFile" multiple  />
-                    <button class="file_button" type="button" >Upload File</button>
-                </form>
-                <form action="/Final/" method="get">
-                    <input type="hidden" name="controller" value="home"/>
-                    <input type="hidden" name="action" value="create_dir"/>
-                    <input type="hidden" name="dir" value="<?= substr($dir, 1) ?>"/>
-                    <input type="text" name="new_folder_name"/>
-                    <button class="file_button" type="submit" >create new folder</button>
-                </form>
-                <br>
-                <hr>
+                <input class="file-input" type="file" name="myFile[]" id="myFile" multiple  />
+                <button class="file_button" type="button" >Upload File</button>
                 <?php
                     echo "<a href='?controller=home&action=index'>My Drive</a>";
                     $url = "";
@@ -132,12 +122,6 @@
                         }
                         echo "  >  <a href='?controller=home&action=index&dir=$url'>$item</a>";
                     }
-                ?>
-                <hr>
-                <div class="row">
-                    <div class="col-xl-12" style=""></div>
-                </div>
-                <?php
 
                     echo "<br>";
 
@@ -159,6 +143,13 @@
                         }
                     }
                 ?>
+                <form action="/Final/" method="get">
+                    <input type="hidden" name="controller" value="home"/>
+                    <input type="hidden" name="action" value="create_dir"/>
+                    <input type="hidden" name="dir" value="<?= substr($dir, 1) ?>"/>
+                    <input type="text" name="new_folder_name"/>
+                    <input type="submit" value="create new folder"/>
+                </form>
                 <script type="text/javascript" src="/Final/decor/home.js"></script>
 
         </div>
