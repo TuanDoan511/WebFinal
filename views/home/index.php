@@ -105,9 +105,11 @@
             </div>
 
             <div class="main_container">
-                <form action="/Final/" method="get">
-                    <input class="file-input" type="file" name="myFile[]" id="myFile" multiple  />
-                    <button class="file_button" type="button" >Upload File</button>
+                <form method="post" enctype="multipart/form-data" action="/Final/">
+                    <input type="hidden" name="type" value = "upload_files"/>
+                    <input type="file" name="myFile[]" id="myFile" multiple/>
+                    <input type="hidden" name="dir" value="<?= substr($dir, 1) ?>"/>
+                    <button class="file_button" type="submit">Upload File</button>
                 </form>
                 <form action="/Final/" method="get">
                     <input type="hidden" name="controller" value="home"/>
@@ -119,6 +121,7 @@
                 <br>
                 <hr>
                 <?php
+                    echo $alert;
                     echo "<a href='?controller=home&action=index'>My Drive</a>";
                     $url = "";
 

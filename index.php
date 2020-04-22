@@ -4,7 +4,7 @@
 
     $support_controller = array(
         "login" => array("index", "login"),
-        "home" => array("index", "error", "create_dir"),
+        "home" => array("index", "error", "create_dir", "up_load_files"),
         "register" => array("index", "register"),
         "logout" => array("logout"),
     );
@@ -18,6 +18,10 @@
             case "register_form":
                 $controller = "register";
                 $action = "register";
+                break;
+            case "upload_files":
+                $controller = "home";
+                $action = "up_load_files";
                 break;
         }
     }
