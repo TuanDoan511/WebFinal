@@ -137,6 +137,58 @@ body{
     display: block;
 }
 
+.wrapper .detailbar{
+    position: fixed;
+    top: 100px;
+    right: 10px;
+    background: white;
+    width: 0;
+    height: 100%;
+    border-bottom-left-radius: 20px;
+    transition: all 0.3s ease;
+}
+
+.wrapper .detailbar ul li a{
+    display: block;
+    padding: 20px;
+    position: relative;
+    margin-bottom: 1px;
+    color: black;
+    white-space: nowrap;
+}
+
+.wrapper .detailbar ul li a:before{
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 3px;
+    height: 100%;
+    background: black;
+    display: none;
+}
+
+.wrapper .detailbar ul li a span.icon{
+    margin-right: 10px;
+    display: inline-block;
+}
+
+.wrapper .detailbar ul li a span.title{
+    display: inline-block;
+
+}
+
+.wrapper .detailbar ul li a:hover,
+.wrapper .detailbar ul li a.active{
+    background: black;
+    color: #fff;
+}
+
+.wrapper .detailbar ul li a:hover:before,
+.wrapper .deatilbar ul li a.active:before{
+    display: block;
+}
+
 .wrapper .main_container{
     width: calc(100% - 200px);
     margin-top: 70px;
@@ -157,6 +209,14 @@ body{
     width: 70px;
 }
 
+.wrapper.collapse .sidebar .sub-menu{
+    display: none;
+    position: absolute;
+    background: #32be8f;
+    margin-top: 0;
+    margin-left: 70px;
+}
+
 .wrapper.collapse .sidebar ul li a{
     text-align: center;
 }
@@ -170,6 +230,28 @@ body{
 }
 
 .wrapper.collapse .main_container{
+    width: calc(100% - 70px);
+    margin-left: 70px;
+}
+
+.wrapper.collapse_detail .detailbar{
+    width: 360px;
+}
+
+.wrapper.collapse_detail .detailbar ul li a{
+    text-align: center;
+}
+
+.wrapper.collapse_detail .detailbar ul li a span.icon{
+    margin: 0;
+}
+
+.wrapper.collapse_detail .detailbar ul li a span.title{
+    display: none;
+
+}
+
+.wrapper.collapse_detail .main_container{
     width: calc(100% - 70px);
     margin-left: 70px;
 }
@@ -336,6 +418,55 @@ body{
     color: #8C1818;
     transition: 0.2s;
 }
+
+.icon_detail {
+    position: fixed;
+    right: 10px;
+    top: 70px;
+    color: black;
+}
+
+.detailbar a {
+    color: black;
+    text-align: center;
+    text-decoration: none;
+    width: 178px;
+    padding: inherit;
+    display: inline-block;
+    background-color: #38d39f;
+    height: 35px;
+}
+
+.line {
+    width: 178px;
+    height: 3px;
+    background-color: #333333;
+    transition: all .4s ease-in-out;
+}
+
+a:nth-child(2):hover ~ .line{
+    transform: translate(181px);
+    transition: all .4s ease-in-out;
+}
+
+.sub-menu {
+    display: none;
+    position: absolute;
+    background: #32be8f;
+    margin-top: 0;
+    margin-left: 200px;
+}
+
+
+
+
+
+
+
+
+
+
+
 
 
 
