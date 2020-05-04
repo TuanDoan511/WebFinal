@@ -27,6 +27,20 @@ class HomeController {
         require_once("views/home/index.php");
     }
 
+    function shared($dir="", $alert="") {
+        $user = $this->username;
+        if (isset($_GET["dir"])) {
+            $dir = "/" . $_GET["dir"];
+        }
+        if (isset($_GET["alert"])) {
+            $alert = $_GET["alert"];
+            $alert = "<script type='text/javascript'>alert('$alert');</script>";
+        }
+        $root = str_replace("/My Drive", "/Share With Me", $this->root);
+        $dir_path = $root . $dir;
+        require_once("views/home/index.php");
+    }
+
     function create_dir() {
         if (isset($_GET["dir"]) && isset($_GET["new_folder_name"])) {
             $dir = $_GET["dir"];
@@ -80,6 +94,9 @@ class HomeController {
                     }
                 }
                 redirect("home", "index", array("dir"=>$_POST["dir"], "alert"=>$str_fail));
+            }
+            else{
+                redirect("home", "index", array("dir"=>$_POST["dir"]));
             }
         }
         else{

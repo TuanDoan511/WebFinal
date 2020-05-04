@@ -12,3 +12,11 @@ CREATE TABLE Users(
     rootDir varchar(32) not null
 );
 
+create table Like_item(
+	id int PRIMARY KEY AUTO_INCREMENT,
+    file_des varchar(100),
+    owner varchar(32)
+);
+
+alter table Like_item add FOREIGN KEY (owner) REFERENCES Users(username)
+

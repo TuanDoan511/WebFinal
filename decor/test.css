@@ -1,0 +1,97 @@
+.all-files   {
+    width: 75%;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    padding: 10px;
+}
+
+.card {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid black;
+    border-radius: 10px 10px 0px 0px;
+    width: 250px;
+    height: 320px;
+    overflow: hidden;
+    margin: 20px 20px 0px 20px;
+}
+
+.file-type-image {
+    display: flex;
+    width: 100%;
+    text-align: center;
+    flex: 3;
+    align-items: center;
+    justify-content: center;
+}
+
+.file-name {
+    flex: 2;
+    text-align: center;
+    margin: 20px;
+    word-wrap: break-word;
+    overflow: hidden;
+}
+
+.card_button {
+    margin: 0px 20px 20px 20px;
+    width: 250px;
+    display: flex;
+    justify-content: center;
+    overflow: hidden;
+    border-radius: 0px 0px 10px 10px;
+    border: 1px solid black;
+}
+
+.star_btn {
+    font-size: 20px;
+    flex: 1;
+    border: 0px 1px 1px 0px;
+}
+
+.remove_btn {
+    font-size: 20px;
+    flex: 2;
+    border: 0px;
+}
+
+.share_btn {
+    font-size: 20px;
+    flex: 2;
+    border: 0px;
+}
+
+.checked {
+    color: yellow;
+}
+
+.unchecked {
+    color: white;
+}
+
+.file-image{
+    width: 100%;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.name_hover {
+    position: absolute;
+    background-color: white;
+    z-index: 1;
+    padding: 1px 10px 1px 10px;
+    border-radius: 12px;
+    border: 0.5px solid grey;
+    margin-left: 20px;
+    margin-top: 20px;
+    visibility: hidden;
+    min-width: 125px;
+}
+
+.file-name:hover .name_hover {
+    visibility: visible;
+}
+
+
+
