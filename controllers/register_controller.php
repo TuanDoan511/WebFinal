@@ -47,20 +47,19 @@ class RegisterController {
 
                 $dir = $_SERVER["DOCUMENT_ROOT"] . "/" . $rootDir;
                 if (!file_exists($_SERVER["DOCUMENT_ROOT"] . '/' . "Final/user_files")) {
-                    mkdir($_SERVER["DOCUMENT_ROOT"] . '/' . "Final/user_files", 0777, true);
+                    mkdir($_SERVER["DOCUMENT_ROOT"] . '/' . "Final/user_files", 0755, true);
                 }
                 if (!file_exists($dir)) {
                     print_r($dir);
-                    mkdir($dir, 0777, true);
-                    mkdir($dir . "/" . "My Drive", 0777, true);
-                    mkdir($dir . "/" . "Share With Me", 0777, true);
+                    mkdir($dir, 0755, true);
+                    mkdir($dir . "/" . "My Drive", 0755, true);
+                    mkdir($dir . "/" . "Share With Me", 0755, true);
                 }
-
                 //set token and navigate to home page when user are successfully created
                 token_generate($username);
                 redirect("home", "index");
             }
-
         }
     }
+
 }

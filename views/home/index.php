@@ -11,9 +11,27 @@
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script>
         $(document).ready(function () {
-            $(".hamburger").click(function () {
-                $(".wrapper").toggleClass("collapse")
-            });
+            if ($(window).width() >= 1200)
+            {
+                $(".hamburger").click(function () {
+                    $(".wrapper").toggleClass("collapse")
+                });
+            }
+            else{
+                $(".sidebar").css("display", "none")
+                $(".main_container").css("margin-left", "0px")
+                $(".main_container").css("padding-left", "0px")
+                $("hr").css("width", "100%")
+                $(".hamburger").click(function () {
+                    if ($(".sidebar").css("display") == "none")
+                    {
+                        $(".sidebar").css("display", "")
+                    }
+                    else{
+                        $(".sidebar").css("display", "none")
+                    }
+                });
+            }
         });
     </script>
     <script type="text/javascript">
@@ -36,7 +54,7 @@
         });
 
         $(document).ready(function () {
-            $(".search-btn").on("click", function() {
+            $(".search-txt").on('input', function() {
                 var input = $(".search-txt").val().trim();
                 $(".file").each(function() {
                     if (input === "" && $(this).hasClass("hidden")){
@@ -50,7 +68,6 @@
                         }
                     }
                 });
-                $(".search-txt").val("");
             });
         });
 
@@ -67,7 +84,46 @@
                 $(".main_container").css("margin-left", "200px")
                 $(".main_container").css("padding-left", "15px")
                 $("hr").css("width", "100%")
+                $(".hamburger").click(function () {
+                    $(".wrapper").toggleClass("collapse")
+                });
             }
+        });
+
+        $(document).ready(function () {
+            $(".remove_btn").click(function() {
+                if (confirm("Are you sure to remove this?")) {
+                    $file_path = $(this).parent().attr("path");
+                    $.ajax({
+                        type: "post",
+                        url: "/Final/",
+                        data: {data: $file_path, type: "remove"},
+                        success: function (data,status,xhr) {   
+                            // success callback function
+                            location.reload();
+                        },
+                    });
+                }
+            });
+            <?php
+                $array = explode("/", $root);
+                $root_folder = end($array);
+            ?>
+            $(".star_btn").click(function() {
+                $file_path = $(this).parent().attr("path");
+                if ($file_path[0] != "/"){
+                    $file_path = "<?= $root_folder . "/" ?>" + $(this).parent().attr("path");
+                }
+                else{
+                    $file_path = "<?= $root_folder ?>" + $(this).parent().attr("path");
+                }
+                $status = $(this).attr("class").split(" ").pop();
+                $.ajax({
+                    type: "post",
+                    url: "/Final/",
+                    data: {data: $file_path, owner: "<?= $user->username ?>", type: "like", curr_status: $status},
+                });
+            })
         });
     </script>
 
@@ -89,9 +145,6 @@
                         <label>
                             <input class="search-txt" type="text" name="" placeholder="Search your file ">
                         </label>
-                        <button class="search-btn" >
-                            <i class="fas fa-search"></i>
-                        </button>
                     </div>
                     <div class="head">
                         <div class="user_section" id="user">
@@ -126,7 +179,7 @@
                                 <i class="fas fa-users" aria-hidden="true"></i></span>
                             <span class="title">Shared with me</span>
                         </a></li>
-                    <li><a href="#">
+                    <li><a href="/Final/?controller=home&action=note">
                             <span class="icon">
                                 <i class="fas fa-star" aria-hidden="true"></i></span>
                             <span class="title">Note</span>
@@ -212,8 +265,25 @@
                         if (substr($file, 0, 1) == '.'){
                             continue;
                         }
+                        $like = "unchecked";
                         if (is_dir($dir_path . "/" . $file)) {
                             $file_path = str_replace($root . "/", "", $dir_path . "/" . $file);
+                            if ($file_path[0] == "/"){
+                                foreach ($liked_post as $post){
+                                    if ($post->path == substr($file_path, 1)){
+                                        $like = "checked";
+                                        break;
+                                    }
+                                }
+                            }
+                            else{
+                                foreach ($liked_post as $post){
+                                    if ($post->path == $file_path){
+                                        $like = "checked";
+                                        break;
+                                    }
+                                }
+                            }
                 ?>
                             <div class="file">
                                 <a href="?controller=home&action=<?= $action ?>&dir=<?= $file_path ?>">
@@ -221,15 +291,16 @@
                                         <div class="file-type-image">
                                             <img class="file-image" src="/Final/image/folder.jpg"/>
                                         </div>
+                                        <br>
                                         <div class="file-name">
                                             <span class="name_hover"><?= $file ?></span>
                                             <p><?= $file ?></p>
                                         </div>
                                     </div>
                                 </a>
-                                <div class="card_button">
+                                <div path="<?= str_replace($root . "/", "", $dir_path . "/" . $file) ?>" class="card_button">
                                     <button class="share_btn">Share</button>
-                                    <button class="star_btn fa fa-star unchecked"></button>
+                                    <button class="star_btn fa fa-star <?= $like ?>"></button>
                                     <button class="remove_btn">Remove</button>
                                 </div>
                             </div>
@@ -237,6 +308,23 @@
                         }
                         else
                         {
+                            $file_path = str_replace($root . "/", "", $dir_path . "/" . $file);
+                            if ($file_path[0] == "/"){
+                                foreach ($liked_post as $post){
+                                    if ($post->path == substr($file_path, 1)){
+                                        $like = "checked";
+                                        break;
+                                    }
+                                }
+                            }
+                            else{
+                                foreach ($liked_post as $post){
+                                    if ($post->path == $file_path){
+                                        $like = "checked";
+                                        break;
+                                    }
+                                }
+                            }
                             $file_path = str_replace($_SERVER["DOCUMENT_ROOT"], "", $dir_path . "/" . $file);
                 ?>
                             <div class="file">
@@ -245,15 +333,16 @@
                                         <div class="file-type-image">
                                             <img class="file-image" src="/Final/image/folder.jpg"/>
                                         </div>
+                                        <br>
                                         <div class="file-name">
                                             <span class="name_hover"><?= $file ?></span>
                                             <p><?= $file ?></p>
                                         </div>
                                     </div>
                                 </a>
-                                <div class="card_button">
+                                <div path="<?= str_replace($root . "/", "", $dir_path . "/" . $file) ?>" class="card_button">
                                     <button class="share_btn">Share</button>
-                                    <button class="star_btn fa fa-star unchecked"></button>
+                                    <button class="star_btn fa fa-star <?= $like ?>"></button>
                                     <button class="remove_btn">Remove</button>
                                 </div>
                             </div>

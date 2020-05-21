@@ -4,7 +4,7 @@
 
     $support_controller = array(
         "login" => array("index", "login"),
-        "home" => array("index", "shared", "error", "create_dir", "up_load_files"),
+        "home" => array("index", "shared", "error", "create_dir", "up_load_files", "remove", "like", "note"),
         "register" => array("index", "register"),
         "logout" => array("logout"),
     );
@@ -20,6 +20,27 @@
                 $controller = "login";
                 $action = "login";
                 break;
+
+            case "remove":
+                if (isset($_COOKIE[TOKEN_HEADER])) {
+                    $controller = "home";
+                    $action = "remove";
+                    break;
+                }
+                $controller = "login";
+                $action = "login";
+                break;
+
+            case "like":
+                if (isset($_COOKIE[TOKEN_HEADER])) {
+                    $controller = "home";
+                    $action = "like";
+                    break;
+                }
+                $controller = "login";
+                $action = "login";
+                break;
+
             case "register_form":
                 if (isset($_COOKIE[TOKEN_HEADER])) {
                     $controller = "home";
