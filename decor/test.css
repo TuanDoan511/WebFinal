@@ -93,5 +93,11 @@
     visibility: visible;
 }
 
-
+#fileUpload {
+    border: 1px dashed black;
+    width: 70%;
+    height: auto;
+    overflow: hidden;
+    padding: 5px;
+}
 

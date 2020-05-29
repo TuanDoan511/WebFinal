@@ -125,6 +125,41 @@
                 });
             })
         });
+
+        $(document).ready(function(){
+            $("html").on("dragover", function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+            });
+
+            $("html").on("drop", function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+            });
+
+            $('#fileUpload').on('dragover', function (e) {
+                e.stopPropagation();
+                e.preventDefault();
+                $(this).find("p").text("Drop");
+            });
+
+            $('#fileUpload').on('dragleave', function (e) {
+                e.stopPropagation();
+                e.preventDefault();
+                $(this).find("p").text("Drag here to upload");
+            });
+
+            $('#fileUpload').on('drop', function (e) {
+                e.preventDefault()
+                e.stopPropagation();
+                $(this).find("p").text("Drag here to upload");
+
+                //$(this).find("#myFile").files = e.originalEvent.dataTransfer.files;
+                document.getElementById("myFile").files = e.originalEvent.dataTransfer.files;
+                console.log(document.getElementById("myFile").files)
+
+            });
+        })
     </script>
 
     <script src="https://kit.fontawesome.com/a81368914c.js"></script>
@@ -184,11 +219,6 @@
                                 <i class="fas fa-star" aria-hidden="true"></i></span>
                             <span class="title">Note</span>
                         </a></li>
-                    <li><a href="#">
-                            <span class="icon">
-                                <i class="fas fa-trash" aria-hidden="true"></i></span>
-                            <span class="title">Trash</span>
-                        </a></li>
                 </ul>
             </div>
 
@@ -207,12 +237,15 @@
                 if ($action == "index")
                 {
             ?>
-                <form method="post" enctype="multipart/form-data" action="/Final/">
-                    <input type="hidden" name="type" value = "upload_files"/>
-                    <input type="file" name="myFile[]" id="myFile" multiple/>
-                    <input type="hidden" name="dir" value="<?= substr($dir, 1) ?>"/>
-                    <button class="file_button" type="submit">Upload File</button>
-                </form>
+                <div id="fileUpload">
+                    <form method="post" enctype="multipart/form-data" action="/Final/">
+                        <input type="hidden" name="type" value = "upload_files"/>
+                        <input type="file" name="myFile[]" id="myFile" multiple/>
+                        <input type="hidden" name="dir" value="<?= substr($dir, 1) ?>"/>
+                        <p style="text-align: center; color: grey; opacity: 50%">Drag here to upload</p>
+                        <button class="file_button" type="submit">Upload File</button>
+                    </form>
+                </div>
                 <br>
                 <form action="/Final/" method="get">
                     <button class="file_button" type="submit" >create new folder</button>
