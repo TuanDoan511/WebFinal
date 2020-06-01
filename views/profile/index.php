@@ -3,49 +3,163 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Profile</title>
+    <title>HOME</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://kit.fontawesome.com/3e4a6334d7.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="/Final/decor/home_style.css">
+    <link rel="stylesheet" href="/Final/decor/test.css">
     <link rel="stylesheet" href="/Final/decor/profile_style.css">
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-
+    <script>
+        $(document).ready(function () {
+            if ($(window).width() >= 1200)
+            {
+                $(".hamburger").click(function () {
+                    $(".wrapper").toggleClass("collapse")
+                });
+            }
+            else{
+                $(".sidebar").css("display", "none")
+                $(".main_container").css("margin-left", "0px")
+                $(".main_container").css("padding-left", "0px")
+                $("hr").css("width", "100%")
+                $(".hamburger").click(function () {
+                    if ($(".sidebar").css("display") == "none")
+                    {
+                        $(".sidebar").css("display", "")
+                    }
+                    else{
+                        $(".sidebar").css("display", "none")
+                    }
+                });
+            }
+        });
+    </script>
     <script type="text/javascript">
-
-
         $(document).ready(function () {
-            $("#user").mouseover(function () {
-                $(".user_c").show(100);
-            });
-            $("html").click(function () {
-                $(".user_c").hide(100);
-            });
+            $("#user").mouseenter(function () {
+                if (!$('.user_c').is(":visible")){
+                    $(".user_c").show(100);
+                }
+            })
+            $("#user").mouseleave(function () {
+                if (!$('.user_c').is(':hover')) {
+                    $(".user_c").hide(100);
+                }
+            })
+            $(".user_c").mouseleave(function () {
+                if (!$('#user').is(':hover')) {
+                    $(".user_c").hide(100);
+                }
+            })
         });
 
         $(document).ready(function () {
-            $(".detail").click(function () {
-                $(".wrapper").toggleClass("collapse_detail")
+            $(".search-txt").on('input', function() {
+                var input = $(".search-txt").val().trim();
+                $(".file").each(function() {
+                    if (input === "" && $(this).hasClass("hidden")){
+                        $(this).removeClass("hidden")
+                    }
+                    else{
+                        $(this).removeClass("hidden")
+                        let file_name = $(this).find(".file-name").children("p").text();
+                        if (!file_name.toLowerCase().includes(input.toLowerCase())){
+                            $(this).addClass("hidden")
+                        }
+                    }
+                });
             });
+        });
+
+        $(window).resize(function() {
+            var width = $(window).width();
+            if (width < 1200){
+                $(".sidebar").css("display", "none")
+                $(".main_container").css("margin-left", "0px")
+                $(".main_container").css("padding-left", "0px")
+                $("hr").css("width", "100%")
+            }
+            else{
+                $(".sidebar").css("display", "")
+                $(".main_container").css("margin-left", "200px")
+                $(".main_container").css("padding-left", "15px")
+                $("hr").css("width", "100%")
+                $(".hamburger").click(function () {
+                    $(".wrapper").toggleClass("collapse")
+                });
+            }
         });
 
         $(document).ready(function () {
-            $("#show").mouseover(function () {
-                $(".sub-menu").show(100);
-            });
-            $("html").click(function () {
-                $(".sub-menu").hide(100);
+            $(".remove_btn").click(function() {
+                if (confirm("Are you sure to remove this?")) {
+                    $file_path = $(this).parent().attr("path");
+                    $.ajax({
+                        type: "post",
+                        url: "/Final/",
+                        data: {data: $file_path, type: "remove"},
+                        success: function (data,status,xhr) {
+                            // success callback function
+                            location.reload();
+                        },
+                    });
+                }
             });
         });
 
+        $(document).ready(function(){
+            $("html").on("dragover", function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+            });
 
+            $("html").on("drop", function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+            });
 
+            $('#fileUpload').on('dragover', function (e) {
+                e.stopPropagation();
+                e.preventDefault();
+                $(this).find("p").text("Drop");
+            });
 
+            $('#fileUpload').on('dragleave', function (e) {
+                e.stopPropagation();
+                e.preventDefault();
+                $(this).find("p").text("Drag here to upload");
+            });
+
+            $('#fileUpload').on('drop', function (e) {
+                e.preventDefault()
+                e.stopPropagation();
+                $(this).find("p").text("Drag here to upload");
+
+                //$(this).find("#myFile").files = e.originalEvent.dataTransfer.files;
+                document.getElementById("myFile").files = e.originalEvent.dataTransfer.files;
+                console.log(document.getElementById("myFile").files)
+            });
+
+            var message = "<?= $alert ?>";
+            console.log(message)
+            if (message != ""){
+                alert(message)
+            }
+
+            var old_first_name = "<?=$user->first_name?>";
+            var old_last_name = "<?=$user->last_name?>";
+            var old_email = "<?=$user->email?>";
+            var old_phone = "<?=$user->phone?>";
+            console.log(old_first_name, old_last_name, old_email, old_phone)
+        })
     </script>
 
     <script src="https://kit.fontawesome.com/a81368914c.js"></script>
 
 </head>
-<body style="background-color: #e1ecf2">
-<header>
+<body>
+<div>
     <div class="wrapper">
         <div class="top_navbar">
             <div class="hamburger">
@@ -55,29 +169,20 @@
             </div>
             <div class="top_menu">
                 <div class="logo">TDT Drive</div>
-                <div class="search-box">
-                    <label>
-                        <input class="search-txt" type="text" name="" placeholder="Search your file ">
-                    </label>
-                    <a class="search-btn" href="#">
-                        <i class="fas fa-search"></i>
-                    </a>
-                </div>
                 <div class="head">
                     <div class="user_section" id="user">
-                        <p class="v">Nguyen Phuong</p>
-                        <img src="../../image/avatar.svg" alt="user" class="l">
+                        <img src="/Final/image/avatar.svg" alt="user" class="l">
                     </div>
                     <div class="user_c">
                         <div class="user_info l">
-                            <img src="../../image/avatar.svg" alt="user" class="info_img ">
-                            <p>Username</p>
-                            <p>User@gmail.com</p>
-                        </div>
+                            <img src="/Final/image/avatar.svg" alt="user" class="info_img ">
+                            <p><?= $user->username?></p>
+                            <p><?= $user->email?></p>
 
+                        </div>
                         <ul>
-                            <li><a href="#">Manage your Profile</a></li>
-                            <li><a href="#">Logout</a></li>
+                            <li><a href="?controller=profile&action=index">Manage your Profile</a></li>
+                            <li><a href="?controller=logout&action=logout">Logout</a></li>
                         </ul>
 
                     </div>
@@ -87,82 +192,32 @@
         </div>
         <div class="sidebar">
             <ul>
-                <li id="show"><a href="#">
-                            <span class="icon" id="show">
-                                <i class="fas fa-plus-circle" aria-hidden="true"></i></span>
-                        <span class="title">New</span>
-                    </a>
-                    <div class="sub-menu">
-                        <ul>
-                            <li><a href="#">
-                                         <span class="icon" >
-                                        <i class="fas fa-folder-plus" aria-hidden="true"></i></span>
-                                    <span class="Add">Create Folder</span></a></li>
-                            <li><a href="#">
-                                         <span class="icon" >
-                                        <i class="fas fa-file-upload" aria-hidden="true"></i></span>
-                                    <span class="Add">Upload File</span></a></li>
-                            <li><a href="#">
-                                         <span class="icon">
-                                        <i class="fas fa-folder" aria-hidden="true"></i></span>
-                                    <span class="Add">Upload Folder</span></a></li>
-                        </ul>
-                    </div>
-                </li>
-                <li><a href="#">
+                <li><a href="/Final/?controller=home&action=index">
                             <span class="icon">
                                 <i class="fas fa-box-open" aria-hidden="true"></i></span>
                         <span class="title">My Drive</span>
                     </a></li>
-                <li><a href="#">
+                <li><a href="/Final/?controller=home&action=shared">
                             <span class="icon">
                                 <i class="fas fa-users" aria-hidden="true"></i></span>
                         <span class="title">Shared with me</span>
                     </a></li>
-                <li><a href="#">
-                            <span class="icon">
-                            <i class="fas fa-clock" aria-hidden="true"></i></span>
-                        <span class="title">Recent</span>
-                    </a></li>
-                <li><a href="#">
+                <li><a href="/Final/?controller=home&action=note">
                             <span class="icon">
                                 <i class="fas fa-star" aria-hidden="true"></i></span>
                         <span class="title">Note</span>
                     </a></li>
-                <li><a href="#">
-                            <span class="icon">
-                                <i class="fas fa-trash" aria-hidden="true"></i></span>
-                        <span class="title">Trash</span>
-                    </a></li>
-                <li><a href="#">
-                            <span class="icon">
-                                <i class="fas fa-cog" aria-hidden="true"></i></span>
-                        <span class="title">Setting</span>
-                    </a></li>
-
             </ul>
         </div>
-        <div class="detail">
-            <a href="#">
-                            <span class="icon_detail">
-                                <i class="fas fa-info-circle" aria-hidden="true"></i></span>
 
-            </a>
-        </div>
-
-        <div class="container " style="width: 900px; z-index: 0" >
-            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
-            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
-            <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+        <div class="main_container">
             <h1>Edit Profile</h1>
             <hr >
             <div class="row" style="margin-left: 100px" >
 
-                <div class="col-lg-3" >
+                <div>
                     <div class="text-center">
-                        <img src="../../image/avatar.svg" class="img-circle" alt="avatar" width="100" height="100">
+                        <img src="/Final/image/avatar.svg" class="img-circle" alt="avatar" width="100" height="100">
                     </div>
 
                     <div class="text-center">
@@ -179,76 +234,62 @@
 
                     <h3>Personal info</h3>
 
-                    <form class="form-horizontal" role="form">
+                    <form method="post" action="/Final/" class="form-horizontal" role="form">
                         <div class="form-group">
                             <label class="col-lg-3 control-label">First name:</label>
                             <div class="col-lg-9">
-                                <input class="form-control" type="text" value="TDT">
+                                <input class="form-control" name="first-name" type="text" value="<?= $user->first_name ?>">
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-lg-3 control-label">Last name:</label>
                             <div class="col-lg-9">
-                                <input class="form-control" type="text" value="Uni">
+                                <input class="form-control" name="last-name" type="text" value="<?= $user->last_name ?>">
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label class="col-lg-3 control-label">Birthday:</label>
-                            <div class="col-lg-9">
-                                <input class="form-control" type="date" value="">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-lg-3 control-label">Gender:</label>
-                            <div class="col-lg-9">
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">
-                                    <label class="form-check-label" for="inlineRadio1">Male</label>
-                                </div>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2">
-                                    <label class="form-check-label" for="inlineRadio2">Female</label>
-                                </div>
-                            </div>
-                        </div>
-
-
-
                         <div class="form-group">
                             <label class="col-lg-3 control-label">Email:</label>
                             <div class="col-lg-9">
-                                <input class="form-control" type="text" value="student@gmail.com">
+                                <input class="form-control" name="email" type="text" value="<?= $user->email ?>">
                             </div>
                         </div>
-
                         <div class="form-group">
-                            <label class="col-lg-3 control-label">Username:</label>
+                            <label class="col-lg-3 control-label">Phone number:</label>
                             <div class="col-lg-9">
-                                <input class="form-control" type="text" value="student">
+                                <input class="form-control" name="phone" type="text" value="<?= $user->phone ?>">
                             </div>
                         </div>
+                        <input type="hidden" name="type" value="change-profile"/>
+                        <div class="col-lg-8">
+                            <input type="submit" class="btn btn-default" value="Save Changes">
+                        </div>
+                    </form>
 
-                        <h3>Security</h3>
-
+                        <h3 style="margin-top: 50px">Security</h3>
+                    <form method="post" action="/Final/" class="form-horizontal" role="form">
+                        <div class="form-group">
+                            <label class="col-lg-3 control-label">Old password:</label>
+                            <div class="col-lg-9">
+                                <input name="old_password" class="form-control" type="password">
+                            </div>
+                        </div>
                         <div class="form-group">
                             <label class="col-lg-3 control-label">Password:</label>
                             <div class="col-lg-9">
-                                <input class="form-control" type="password" value="11111122333">
+                                <input name="new_password" class="form-control" type="password">
                             </div>
                         </div>
-
                         <div class="form-group">
                             <label class="col-lg-5 control-label">Confirm password:</label>
                             <div class="col-lg-9">
-                                <input class="form-control" type="password" value="11111122333">
+                                <input name="confirm_password" class="form-control" type="password">
                             </div>
                         </div>
+                        <input type="hidden" name="type" value="change-password"/>
                         <div class="form-group">
                             <label class="col-lg-3 control-label"></label>
                             <div class="col-lg-8">
-                                <input id="button" type="button" class="btn btn-primary" value="Save Changes">
-                                <span></span>
-                                <input type="reset" class="btn btn-default" value="Cancel">
+                                <input type="submit" class="btn btn-default" value="Save Changes">
                             </div>
                         </div>
                     </form>
@@ -256,10 +297,6 @@
             </div>
         </div>
     </div>
-
-
-
-</header>
-
+</div>
 </body>
 </html>

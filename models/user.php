@@ -55,4 +55,19 @@
             }
             return null;
         }
+
+        static function updateUser($username, $password="", $first_name="", $last_name="", $email="", $phone=""){
+            $db = DB::getDB();
+            if ($password != "")
+            {
+                $password = password_hashing($password);
+                $sql = "UPDATE Users SET password='$password' WHERE username='$username'";
+                $stm = $db->query($sql);
+            }
+            else
+            {
+                $sql = "UPDATE Users SET firstName='$first_name', lastName='$last_name', email='$email', phone='$phone' WHERE username='$username'";
+                $stm = $db->query($sql);
+            }
+        }
     }

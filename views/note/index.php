@@ -54,11 +54,11 @@
         });
 
         $(document).ready(function () {
-            $(".search-txt").on("input", function() {
+            $(".search-txt").on('input', function() {
                 var input = $(".search-txt").val().trim();
                 $(".file").each(function() {
                     if (input === "" && $(this).hasClass("hidden")){
-                    $(this).removeClass("hidden")
+                        $(this).removeClass("hidden")
                     }
                     else{
                         $(this).removeClass("hidden")
@@ -105,26 +105,42 @@
                     });
                 }
             });
-            <?php
-            $array = explode("/", $root);
-            $root_folder = end($array);
-            ?>
-            $(".star_btn").click(function() {
-                $file_path = $(this).parent().attr("path");
-                if ($file_path[0] != "/"){
-                    $file_path = "<?= $root_folder . "/" ?>" + $(this).parent().attr("path");
-                }
-                else{
-                    $file_path = "<?= $root_folder ?>" + $(this).parent().attr("path");
-                }
-                $status = $(this).attr("class").split(" ").pop();
-                $.ajax({
-                    type: "post",
-                    url: "/Final/",
-                    data: {data: $file_path, owner: "<?= $user->username ?>", type: "like", curr_status: $status},
-                });
-            })
         });
+
+        $(document).ready(function(){
+            $("html").on("dragover", function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+            });
+
+            $("html").on("drop", function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+            });
+
+            $('#fileUpload').on('dragover', function (e) {
+                e.stopPropagation();
+                e.preventDefault();
+                $(this).find("p").text("Drop");
+            });
+
+            $('#fileUpload').on('dragleave', function (e) {
+                e.stopPropagation();
+                e.preventDefault();
+                $(this).find("p").text("Drag here to upload");
+            });
+
+            $('#fileUpload').on('drop', function (e) {
+                e.preventDefault()
+                e.stopPropagation();
+                $(this).find("p").text("Drag here to upload");
+
+                //$(this).find("#myFile").files = e.originalEvent.dataTransfer.files;
+                document.getElementById("myFile").files = e.originalEvent.dataTransfer.files;
+                console.log(document.getElementById("myFile").files)
+
+            });
+        })
     </script>
 
     <script src="https://kit.fontawesome.com/a81368914c.js"></script>
@@ -158,7 +174,7 @@
 
                         </div>
                         <ul>
-                            <li><a href="#">Manage your Profile</a></li>
+                            <li><a href="?controller=profile&action=index">Manage your Profile</a></li>
                             <li><a href="?controller=logout&action=logout">Logout</a></li>
                         </ul>
 
@@ -179,15 +195,10 @@
                                 <i class="fas fa-users" aria-hidden="true"></i></span>
                         <span class="title">Shared with me</span>
                     </a></li>
-                <li><a href="#">
+                <li><a href="/Final/?controller=home&action=note">
                             <span class="icon">
                                 <i class="fas fa-star" aria-hidden="true"></i></span>
                         <span class="title">Note</span>
-                    </a></li>
-                <li><a href="#">
-                            <span class="icon">
-                                <i class="fas fa-trash" aria-hidden="true"></i></span>
-                        <span class="title">Trash</span>
                     </a></li>
             </ul>
         </div>
@@ -262,20 +273,6 @@
                     }
                 ?>
             </div>
-            <script>
-                $(document).ready(function() {
-                    $('.star_btn.fa.fa-star').on('click', function(){
-                        if ($(this).hasClass("unchecked")){
-                            $(this).removeClass('unchecked');
-                            $(this).addClass('checked');
-                        }
-                        else {
-                            $(this).removeClass('checked');
-                            $(this).addClass('unchecked');
-                        }
-                    });
-                });
-            </script>
             <script type="text/javascript" src="/Final/decor/home.js"></script>
 
         </div>

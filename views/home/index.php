@@ -193,7 +193,7 @@
 
                         </div>
                                 <ul>
-                                    <li><a href="#">Manage your Profile</a></li>
+                                    <li><a href="?controller=profile&action=index">Manage your Profile</a></li>
                                     <li><a href="?controller=logout&action=logout">Logout</a></li>
                                 </ul>
 

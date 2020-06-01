@@ -7,6 +7,7 @@
         "home" => array("index", "shared", "error", "create_dir", "up_load_files", "remove", "like", "note"),
         "register" => array("index", "register"),
         "logout" => array("logout"),
+        "profile" => array("index", "change_info", "change_password"),
     );
 
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -53,6 +54,14 @@
             case "upload_files":
                 $controller = "home";
                 $action = "up_load_files";
+                break;
+            case "change-profile":
+                $controller = "profile";
+                $action = "change_info";
+                break;
+            case "change-password":
+                $controller = "profile";
+                $action = "change_password";
                 break;
         }
     }
